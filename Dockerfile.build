@@ -1,0 +1,6 @@
+FROM maven:3.9.9-eclipse-temurin-22-alpine as builder
+WORKDIR /build/
+COPY Remote-Handle-Resolver /build
+RUN ls -lah /build/ && \
+    cd /build/ && \
+    mvn clean install

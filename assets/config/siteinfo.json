@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "protocolVersion": "2.11",
+  "serialNumber": 1,
+  "primarySite": true,
+  "multiPrimary": false,
+  "attributes": [
+    {
+      "name": "desc",
+      "value": "Short description"
+    }
+  ],
+  "servers": [
+    {
+      "serverId": 1,
+      "address": "172.17.0.2",
+      "publicKey": {
+        "format": "key",
+        "value": {
+          "kty": "RSA",
+          "n": "sA_kJbk5sKY_thNoi7gmfHe9pmvvFBIf_mho9Jl774c3bZYqKl6UMTgfN-gHOCZr1b3jjjL0SbAznm988KE6eaBQRsu7XhvjTImO2zdKlotjKvDVCprJCMgTpGh04CAAcf3UG4kmWfoSV_nWXpBj6wDb_HJL2gujsoTQh0XMCPjwNYMjI89SSTqiivaNEChoTUxnqRnWMe7VHtYLgJZp0DxKv3kghYQOuuxWL8JOGZ99CC7OEJJFCY1L_D-Vnp0kL4d_hPw2xTWKypcrNH_5brtGbPOcVVbUxCtbVOIahPV30iIBTEddIgRa3lqjPn92fv2Ip9MZCWGrSujFHHdYfQ",
+          "e": "AQAB"
+        }
+      },
+      "interfaces": [
+        {
+          "query": true,
+          "admin": true,
+          "protocol": "TCP",
+          "port": 2641
+        },
+        {
+          "query": true,
+          "admin": false,
+          "protocol": "UDP",
+          "port": 2641
+        },
+        {
+          "query": true,
+          "admin": true,
+          "protocol": "HTTP",
+          "port": 8000
+        }
+      ]
+    }
+  ]
+}

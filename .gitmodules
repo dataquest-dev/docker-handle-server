@@ -1,0 +1,3 @@
+[submodule "Remote-Handle-Resolver"]
+	path = Remote-Handle-Resolver
+	url = https://github.com/dataquest-dev/Remote-Handle-Resolver.git
