@@ -26,10 +26,35 @@ e.g., https://dev-5.pc:8443/server/listhandles/123456789 should work
 
 ## Installation production using provided images
 
+1. pull image, recreate config (keys, ...), copy default configuration from the image
 ```
-docker run --rm -it ghcr.io/dataquest-dev/docker-handle-server:latest /bin/sh /app/hs/bin/hdl-setup-server .
+IMG=ghcr.io/dataquest-dev/docker-handle-server:latest
+
+docker run --rm -it -v $(pwd):/app-share $IMG sh -c "cd /app/hs/bin/ && ./hdl-setup-server /app-share"
+docker create --name temphs-plugin $IMG
+docker cp temphs-plugin:/app/config/handle-dspace-plugin.cfg ./
+docker cp temphs-plugin:/app/config/log4j-handle-plugin.properties ./
+docker rm temphs-plugin
 ```
 
+2. Update config.dct
+```
+...
+  "server_config" = {
+
+    "storage_type" = "CUSTOM"
+    "storage_class" = "org.dspace.handle.MultiRemoteDSpaceRepositoryHandlePlugin"
+
+    "server_admins" = (
+...
+```
+
+3. Start it
+
+```
+docker run --name hs --rm -v $(pwd):/app/config -p 8000:8000 $IMG sh -c "/app/hs/bin/hdl-server /app/config/"
+```
+go to http://XXX:8000/ and test with a PID in this format, `11234/1-5419`.
 
 # Structure
 
