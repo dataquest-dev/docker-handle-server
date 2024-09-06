@@ -53,7 +53,7 @@ docker rm temphs-plugin
 3. Start it
 
 ```
-docker run --name hs --rm -v $(pwd):/app/config -p 8000:8000 $IMG sh -c "/app/hs/bin/hdl-server /app/config/"
+docker run --pull --name hs --rm -v $(pwd):/app/config -p 8000:8000 $IMG sh -c "/app/hs/bin/hdl-server /app/config/"
 ```
 go to http://XXX:8000/ and test with a PID in this format, `11234/1-5419`.
 
