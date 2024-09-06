@@ -12,7 +12,7 @@ docker run --rm -it -v %cd%:/app/ alpine/java:22-jdk /bin/sh /app/assets/handle-
 ```
 or 
 ```
-docker run --rm -it -v $(pwd):/app/ alpine/java:22-jdk /bin/sh /app/bin/hdl-setup-server /app/assets/config
+docker run --rm -it -v $(pwd):/app/ alpine/java:22-jdk /bin/sh /app/assets/handle-9.3.1/bin/hdl-setup-server /app/assets/config
 ```
 
 2. Update handle-dspace-plugin.cfg and/or other files in assets/config. Verify config.dct has correct prefix values.
@@ -23,6 +23,12 @@ docker run --rm -it -v $(pwd):/app/ alpine/java:22-jdk /bin/sh /app/bin/hdl-setu
 handle.remote-resolver.enabled = true
 ```
 e.g., https://dev-5.pc:8443/server/listhandles/123456789 should work
+
+## Installation production using provided images
+
+```
+docker run --rm -it ghcr.io/dataquest-dev/docker-handle-server:latest /bin/sh /app/hs/bin/hdl-setup-server .
+```
 
 
 # Structure
