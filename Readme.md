@@ -1,4 +1,5 @@
 # Status
+[![☃ build-and-publish](https://github.com/dataquest-dev/docker-handle-server/actions/workflows/ci.yml/badge.svg)](https://github.com/dataquest-dev/docker-handle-server/actions/workflows/ci.yml)
 
 # Overview
 
