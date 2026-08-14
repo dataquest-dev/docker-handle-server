@@ -34,6 +34,9 @@
   )
 
   "server_config" = {
+    "storage_type" = "CUSTOM"
+    "storage_class" = "org.dspace.handle.MultiRemoteDSpaceRepositoryHandlePlugin"
+
     "server_admins" = (
       "300:0.NA/YOUR_PREFIX"
     )

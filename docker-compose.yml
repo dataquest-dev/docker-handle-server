@@ -1,0 +1,47 @@
+# Clone & run: a SEPARATE DSpace Handle server.
+#
+#   git clone --recurse-submodules <this repo>
+#   cp .env.example .env        # set DSPACE_HANDLE_ENDPOINT to your backend
+#   docker compose up -d
+#
+# The Handle server resolves via the DSpace backend's remote-resolver
+# endpoints (the backend must have `handle.remote-resolver.enabled = true`).
+# It does NOT connect to the database itself.
+#
+#   client -> handle-server(:8000) --HTTP--> DSpace backend --> database
+#
+services:
+  handle-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker-handle-server:local
+    container_name: handle-server
+    restart: unless-stopped
+    environment:
+      # Where the DSpace backend REST API lives (…/server).
+      # Default assumes a backend published on the host at :8082.
+      DSPACE_HANDLE_ENDPOINT: ${DSPACE_HANDLE_ENDPOINT:-http://host.docker.internal:8082/server}
+    extra_hosts:
+      # lets the container reach a backend running on the host
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${HANDLE_HTTP_PORT:-8000}:8000"                 # HTTP resolver
+      - "${HANDLE_NATIVE_PORT:-2641}:2641/tcp"           # native Handle protocol
+      - "${HANDLE_NATIVE_PORT:-2641}:2641/udp"
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        # 1) point the resolver plugin at the backend
+        echo "dspace.handle.endpoint1 = $$DSPACE_HANDLE_ENDPOINT" > /app/config/handle-dspace-plugin.cfg
+        echo "Backend endpoint: $$DSPACE_HANDLE_ENDPOINT"
+        # 2) wait for the backend (the plugin loads the prefix list on startup
+        #    and aborts if the backend is unreachable)
+        until wget -q -O- "$$DSPACE_HANDLE_ENDPOINT/listprefixes" >/dev/null 2>&1; do
+          echo "  waiting for backend $$DSPACE_HANDLE_ENDPOINT ...";
+          sleep 5;
+        done
+        echo "Backend is up. Starting Handle server."
+        # 3) run the Handle server
+        exec /app/hs/bin/hdl-server /app/config/

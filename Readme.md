@@ -5,6 +5,37 @@
 
 Dockerized https://github.com/DSpace/Remote-Handle-Resolver.
 
+The Handle server runs as a **standalone service** and resolves handles through
+the DSpace backend REST API — it does not connect to the database itself:
+
+```
+client -> handle-server(:8000) --HTTP /server/resolve--> DSpace backend --> database
+```
+
+## Quick start (docker compose)
+
+Clone & run — the container points the resolver plugin at your backend, waits
+for it, and starts the Handle server:
+
+```
+git clone --recurse-submodules https://github.com/dataquest-dev/docker-handle-server.git
+cd docker-handle-server
+cp .env.example .env          # set DSPACE_HANDLE_ENDPOINT to your backend (…/server)
+docker compose up -d
+```
+
+Requirements on the backend side:
+
+```
+handle.remote-resolver.enabled = true
+```
+
+Test a resolve once it is up (use a handle that exists in your repository):
+
+```
+curl http://localhost:8000/api/handles/123456789/0
+```
+
 ## Installation
 
 1. Generate your own configuration by running:
