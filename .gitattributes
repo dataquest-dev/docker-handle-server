@@ -1,1 +1,5 @@
 *.sh eol=lf
+# Handle.Net launcher scripts have NO extension, so `*.sh eol=lf` misses them.
+# Force LF or the shebang breaks when the image is built from a Windows clone.
+assets/handle-9.3.1/bin/hdl text eol=lf
+assets/handle-9.3.1/bin/hdl-* text eol=lf
